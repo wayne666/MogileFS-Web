@@ -1,0 +1,48 @@
+<form class="form-inline form-search" method="get" action="[% c.url_for('/delivery/list') %]">
+    <input class="input-xxlarge search-query" type="text" name="keyword" placeholder="<ID和NAME支持模糊查询>" />
+    <div class="btn-group">
+        <button type="submit" class="btn">[% loc('Find Task') %]</button>
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+        <ul class='dropdown-menu'>
+            <li><a href='/delivery/list?status=0'>提交任务</a></li>
+            <li><a href='/delivery/list?status=1'>开始下载</a></li>
+            <li><a href='/delivery/list?status=2'>下载成功</a></li>
+            <li><a href='/delivery/list?status=3'>下载失败</a></li>
+        </ul>
+    </div>
+    <button type="button" class="btn btn-info" onclick='retryAll(this)' data-loading-text='正在刷新...'>[% loc('重新提交本页任务') %]</button>
+    <button type="button" class="btn btn-danger" onclick='deleteOlder(this)' data-loading-text='正在删除...'>[% loc('删除7天前的数据') %]</button>
+    <br />
+    <div class='control-group' style='margin-top:10px'>
+        <label class='radio'>
+            <input type='radio' name='type' value='id' checked='ture'>
+            ID
+        </label>
+        <label class='radio'>
+            <input type='radio' name='type' value='name'>
+            name
+        </label>
+        <label class='radio'>
+            <input type='radio' name='type' value='wan_ip'>
+            服务节点
+        </label>
+    </div>
+</form>
+<div class="well">
+    <h2>[% loc('任务列表') %]</h2>
+    <div class='clear-fix pull-right' style='margin-top:-4%'>
+        <span class='label label-success'>
+            <p>今天 / 提交 / 下载中 / 成功 / 失败</p>
+            <p class='badge badge-important'>[% count.today %] / [% html_escape(count.today_submited) %] / [% count.today_started %] / [% count.today_successed %] / [% count.today_failed %]</p>
+        </span>
+        <span class='label label-warning'>
+            <p>昨天 / 提交 / 下载中 / 成功 / 失败</p>
+            <p class='badge badge-important'>[% count.yesterday %] / [% count.yesterday_submited %] / [% count.yesterday_started %] / [% count.yesterday_successed %] / [% count.yesterday_failed %]</p>
+        </span>
+        <span class='label label-info'>
+            <p>前天 / 提交 / 下载中 / 成功 / 失败</p>
+            <p class='badge badge-important'>[% count.before %] / [% count.before_submited %] / [% count.before_started %] / [% count.before_successed %] / [% count.before_failed %]</p>
+        </span>
+    </div>
+</div>
+

@@ -1,0 +1,20 @@
+<div class="navbar navbar-static-top navbar-inverse">
+<div class="navbar-inner">
+<a class="brand" href="/">MogileFS</a>
+<div class="btn-group pull-right">
+<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+<i class="icon-user"></i> <%= $self->session('username') %> <span class="caret"></span>
+</a>
+<ul class="dropdown-menu">
+<li><a href="/logout">Logout</a></li>
+</ul>
+</div>
+<ul class="nav">
+<li><a href="#">Help</a></li>
+<li><a href="#">About</a></li>
+</ul>
+<form class="navbar-search navbar-inverse pull-left" action="/">
+<input type="text" class="search-query span8" name='searchKey' placeholder="搜索">
+</form>
+</div>
+</div>

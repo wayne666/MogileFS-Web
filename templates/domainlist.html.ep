@@ -1,0 +1,37 @@
+% layout 'default';
+% title 'MogileFS';
+
+<div class="container-fluid" style="margin-top:2%">
+    <div class="row-fluid">
+        <div class="span2">
+            %= include 'layouts/sidebar';
+        </div>
+        <div class="span10">
+
+                <div class="well well-small">
+                    <form>
+                        <div class="widget-content">
+                            <table class="table table-condensed table-hover table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="width:10%">ID</th>
+                                        <th style="width:10%">域名</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="content">
+                                % foreach my $ref (@$domains) {
+                                    <tr>
+                                        <td style="width:10%"><%= $ref->{id} %></td>
+                                        <td style="width:20%"><%= $ref->{domain} %></td>
+                                    </tr>
+                                % }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+        </div>
+    </div>
+</div>
+

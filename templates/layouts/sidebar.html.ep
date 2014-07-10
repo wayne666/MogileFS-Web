@@ -1,0 +1,34 @@
+<div class="well">
+    <ul class="nav nav-list">
+        <li class="divider"></li>
+        <li>
+            <label class="tree-toggler nav-header">连接</label>
+            <ul class="nav nav-list tree">
+                <li>
+                    <div class="inline">
+                        <i class="icon-hand-right area" style="display:none"></i>
+                        <a href="/hostlist">主机列表</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="inline">
+                        <i class="icon-hand-right isp" style="display:none"></i>
+                        <a href="/domainlist">域名列表</a>
+                    </div>
+                <li>
+                    <div class="inline">
+                        <i class="icon-hand-right isp" style="display:none"></i>
+                        <a href="/devlist">设备列表</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="inline">
+                        <i class="icon-hand-right isp" style="display:none"></i>
+                        <a href="/">文件列表</a>
+                    </div>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+

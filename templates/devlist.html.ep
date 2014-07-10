@@ -1,0 +1,84 @@
+% layout 'default';
+% title 'MogileFS';
+
+<div class="container-fluid" style="margin-top:2%">
+    <div class="row-fluid">
+        <div class="span2">
+            %= include 'layouts/sidebar';
+        </div>
+        <div class="span10">
+
+                <div class="well well-small">
+                    <form>
+                        <div class="widget-content">
+                            <table class="table table-condensed table-hover table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="width:20%">设备ID</th>
+                                        <th style="width:20%">主机名</th>
+                                        <th style="width:10%">主机IP</th>
+                                        <th style="width:10%">状态</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="content">
+                                % foreach my $dev ( @$devices ) {
+                                    % if ( $dev->{status} eq 'dead' ) {
+                                    <tr class="error" >
+                                    % }
+                                    % else {
+                                     <tr>
+                                    % }
+                                        <td style="width:10%"><%= $dev->{devid} %></td>
+                                        <td style="width:20%"><%= $dev->{hostname} %></td>
+                                        <td class="width:20%"><%= $dev->{hostip} %></td>
+                                        <td class="width:20%"><%= $dev->{status} %></td>
+                                    </tr>
+                                % }
+
+                                </tbody>
+                            </table>
+                        <div id="paginationtest" class="pagination"></div>
+                        </div>
+                    </form>
+                </div>
+        </div>
+    </div>
+</div>
+
+
+<script id="tbodyTmp" type="text/x-jquery-tmpl">
+    <tr>
+        <td style="width:10%">${devid}</td>
+        <td style="width:20%">${hostname}</td>
+        <td style="width:20%">${hostip}</td>
+        <td style="width:10%">${status}</td>
+    </tr>
+</script>
+
+<script src="/js/bootstrap-paginator.min.js"></script>
+<script type="text/javascript">
+
+$().ready(function() {
+    getPage(1);
+});
+
+function getPage(pageNum) {
+    var totalPage = '<%= $pageTotal %>';
+    var options = {
+            currentPage: pageNum,
+            totalPages: totalPage,
+            onPageClicked: function(e,originalEvent,type,page){
+                $.get( "/devpage/"+page, function( data ) {
+                    console.log(data.devices);
+                    $("#content").empty();
+                    $.tmpl($("#tbodyTmp"), data.devices).appendTo($("#content"));
+                    //getPage(page);
+                });
+            }
+    };
+
+    $('#paginationtest').bootstrapPaginator(options);
+}
+    
+//}
+</script>

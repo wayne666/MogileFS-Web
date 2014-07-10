@@ -1,0 +1,144 @@
+% layout 'default';
+% title 'MogileFS';
+
+<div class="container-fluid" style="margin-top:2%">
+    <div class="row-fluid">
+        <div class="span2">
+            %= include 'layouts/sidebar';
+        </div>
+        <div class="span10">
+
+                <div class="well well-small">
+                    <form>
+                        <div class="widget-content">
+                            <table class="table table-condensed table-hover table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="width:10%">fid</th>
+                                        <th style="width:20%">Key</th>
+                                        <th style="width:20%">域名</th>
+                                        <th style="width:10%">文件份数</th>
+                                        <th style="width:10%">文件大小(Byte)</th>
+                                        <th style="width:30%">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="content">
+                                % foreach my $fid (keys %$indexPage) {
+                                    <tr>
+                                        <td style="width:10%"><%= $fid %></td>
+                                        <td style="width:20%"><%= $indexPage->{$fid}{dkey} %></td>
+                                        <td class="width:20%"><%= $indexPage->{$fid}{namespace} %></td>
+                                        <td class="width:10%"><%= $indexPage->{$fid}{devcount} %></td>
+                                        <td class="width:10%"><%= $indexPage->{$fid}{length} %></td>
+                                        <td style="width:30%"><button type="button" class="btn btn-info" data-toggle="modal" data-target="#detail" onclick="fileDetail(<%= $fid %>)">详情</button></th>
+                                    </tr>
+                                % }
+
+                                </tbody>
+                            </table>
+                        <div id="paginationtest"></div>
+                        </div>
+                    </form>
+                </div>
+        </div>
+    </div>
+</div>
+
+<div id="detail" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width:800px">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+<h3 id="myModalLabel">文件详情</h3>
+</div>
+<div class="modal-body" id="fileDetail">
+
+</div>
+</div>
+
+<script id="tbodyTmp" type="text/x-jquery-tmpl">
+    <tr>
+        <td style="width:10%">${fid}</td>
+        <td style="width:20%">${dkey}</td>
+        <td class="width:20%">${namespace}</td>
+        <td class="width:10%">${devcount}</td>
+        <td class="width:10%">${length}</td>
+        <td style="width:30%"><button type="button" class="btn btn-info" data-toggle="modal" data-target="#detail" onclick="fileDetail(${fid})">详情</button></th>
+    </tr>
+</script>
+
+<script id="fileDetailTmp" type="text/x-jQuery-tmpl">
+<table class="table">
+    <tr>
+        <th>fid</th>
+        <td>${fid}</td>
+        <th>Key</th>
+        <td>${dkey}</td>
+    </tr>
+    
+    <tr>
+        <th>Domain</th>
+        <td>${namespace}</td>
+        <th>文件分数</th>
+        <td>${devcount}</td>
+    </tr>
+
+    <tr class="warning">
+        <td>主机IP</td>
+        <td colspan="2">主机名</td>
+        <td>设备ID</td>
+    </tr>
+        
+    <tr>
+        <td>${hostip1}</td>
+        <td colspan="2">${hostname1}</td>
+        <td>${devid1}</td>
+    </tr>
+
+    <tr>
+        <td>${hostip2}</td>
+        <td colspan="2">${hostname2}</td>
+        <td>${devid2}</td>
+    </tr>
+
+    <tr>
+        <td>${hostip3}</td>
+        <td colspan="2">${hostname3}</td>
+        <td>${devid3}</td>
+    </tr>
+</table>
+</script>
+
+<script src="/js/bootstrap-paginator.min.js"></script>
+<script type="text/javascript">
+
+$().ready(function() {
+    getPage(1);
+});
+
+function getPage(pageNum) {
+    var totalPage = pageNum + 10;
+    var options = {
+            currentPage: pageNum,
+            totalPages: totalPage,
+            onPageClicked: function(e,originalEvent,type,page){
+                $.get( "/page/"+page, function( data ) {
+                    console.log(data.indexPage);
+                    $("#content").empty();
+                    $.tmpl($("#tbodyTmp"), data.indexPage).appendTo($("#content"));
+                    getPage(page);
+                });
+            }
+    };
+
+    $('#paginationtest').bootstrapPaginator(options);
+}
+
+function fileDetail(fid) {
+    $.get( "/detail/"+fid, function( data ) {
+        $("#fileDetail").empty();
+        $.tmpl($("#fileDetailTmp"), data.fileDetail).appendTo($("#fileDetail"));
+    });
+    
+}
+    
+
+</script>
