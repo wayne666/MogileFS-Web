@@ -6,6 +6,7 @@ use DBIx::Custom;
 use Smart::Comments '###';
 use Mojo::IOLoop;
 
+# just test the fork update
 # DBIx::Custom
 $ENV{DBIX_CUSTOM_DEBUG} = 1;
 my $dbi = DBIx::Custom->connect(
